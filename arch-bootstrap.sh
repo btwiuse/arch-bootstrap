@@ -25,11 +25,14 @@ PACMAN_PACKAGES=(
   acl archlinux-keyring attr bzip2 curl expat glibc gpgme libarchive
   libassuan libgpg-error libnghttp2 libssh2 lzo openssl pacman pacman-mirrorlist xz zlib
   krb5 e2fsprogs keyutils libidn2 libunistring gcc-libs lz4 libpsl icu libunistring zstd
+  openssl nss nspr
 )
+# base base-devel linux-headers
 BASIC_PACKAGES=(${PACMAN_PACKAGES[*]} filesystem)
 EXTRA_PACKAGES=(coreutils bash grep gawk file tar systemd sed)
 DEFAULT_REPO_URL="http://mirrors.kernel.org/archlinux"
-DEFAULT_ARM_REPO_URL="http://mirror.archlinuxarm.org"
+DEFAULT_X86_REPO_URL="http://mirror.archlinux32.org"
+DEFAULT_ARM_REPO_URL="http://ca.us.mirror.archlinuxarm.org"
 
 stderr() { 
   echo "$@" >&2 
@@ -77,6 +80,8 @@ get_default_repo() {
   local ARCH=$1
   if [[ "$ARCH" == arm* || "$ARCH" == aarch64 ]]; then
     echo $DEFAULT_ARM_REPO_URL
+  elif [[ "$ARCH" == *86 ]]; then
+    echo $DEFAULT_X86_REPO_URL
   else
     echo $DEFAULT_REPO_URL
   fi
@@ -86,6 +91,8 @@ get_core_repo_url() {
   local REPO_URL=$1 ARCH=$2
   if [[ "$ARCH" == arm* || "$ARCH" == aarch64 ]]; then
     echo "${REPO_URL%/}/$ARCH/core"
+  elif [[ "$ARCH" == *86 ]]; then
+    echo "${REPO_URL%/}/$ARCH/core"
   else
     echo "${REPO_URL%/}/core/os/$ARCH"
   fi
@@ -94,6 +101,8 @@ get_core_repo_url() {
 get_template_repo_url() {
   local REPO_URL=$1 ARCH=$2
   if [[ "$ARCH" == arm* || "$ARCH" == aarch64 ]]; then
+    echo "${REPO_URL%/}/$ARCH/\$repo"
+  elif [[ "$ARCH" == *86 ]]; then
     echo "${REPO_URL%/}/$ARCH/\$repo"
   else
     echo "${REPO_URL%/}/\$repo/os/$ARCH"
