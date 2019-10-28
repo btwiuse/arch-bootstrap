@@ -6,7 +6,7 @@ Bootstrap a base Arch Linux system from any GNU distro.
 Install
 =======
 
-    # install -m 755 arch-bootstrap.sh /usr/local/bin/arch-bootstrap
+    # install -m 755 arch-bootstrap /usr/local/bin/arch-bootstrap
 
 Examples
 =========
