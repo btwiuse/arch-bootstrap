@@ -116,6 +116,8 @@ configure_pacman() {
   local DEST=$1 ARCH=$2
   debug "configure DNS and pacman"
   cp "/etc/resolv.conf" "$DEST/etc/resolv.conf"
+  echo '191.101.9.207 ca.us.mirror.archlinuxarm.org' > "$DEST/etc/hosts"
+  echo '127.0.0.1 localhost' >> "$DEST/etc/hosts"
   SERVER=$(get_template_repo_url "$REPO_URL" "$ARCH")
   echo "Server = $SERVER" > "$DEST/etc/pacman.d/mirrorlist"
 }
