@@ -66,9 +66,9 @@ uncompress() {
   
   case "$FILEPATH" in
     *.gz) 
-      bsdtar xzf "$FILEPATH" -C "$DEST";;
+      bsdtar -C "$DEST" -xzf "$FILEPATH";;
     *.xz) 
-      xz -dc "$FILEPATH" | bsdtar x -C "$DEST";;
+      xz -dc "$FILEPATH" | bsdtar -C "$DEST" -xf-;;
     *) 
       debug "Error: unknown package format: $FILEPATH"
       return 1;;
